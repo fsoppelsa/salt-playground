@@ -1,0 +1,119 @@
+version: '2'
+
+services:
+  master:
+    container_name: salt-master
+    # Also: fsoppelsa/saltmaster on the Hub
+    # It's an enabled Docker autobuild
+    build: saltmaster/
+    # $n is: accept $n minions
+    command: /root/start.sh 6
+    ports:
+      - "4505:4505"
+      - "4506:4506"
+    depends_on:
+      - controller01
+      - controller02
+      - controller03
+      - compute01
+      - compute02
+      - web01
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.2
+        ipv6_address: 2001:3984:3989::10
+      public:
+        ipv4_address: 172.19.0.2
+        ipv6_address: 2001:3984:3990::10
+  controller01:
+    container_name: controller01
+    # Also: fsoppelsa/saltminion on the Hub
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.3
+        ipv6_address: 2001:3984:3989::11
+      public:
+        ipv4_address: 172.19.0.3
+        ipv6_address: 2001:3984:3990::11
+  controller02:
+    container_name: controller02
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.4
+        ipv6_address: 2001:3984:3989::12
+      public:
+        ipv4_address: 172.19.0.4
+        ipv6_address: 2001:3984:3990::12
+  controller03:
+    container_name: controller03
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.5
+        ipv6_address: 2001:3984:3989::13
+      public:
+        ipv4_address: 172.19.0.5
+        ipv6_address: 2001:3984:3990::13
+  compute01:
+    container_name: compute01
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.10
+        ipv6_address: 2001:3984:3989::20
+      public:
+        ipv4_address: 172.19.0.10
+        ipv6_address: 2001:3984:3990::20
+  compute02:
+    container_name: compute02
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.11
+        ipv6_address: 2001:3984:3989::21
+      public:
+        ipv4_address: 172.19.0.11
+        ipv6_address: 2001:3984:3990::21
+  web01:
+    container_name: web01
+    build: saltminion/
+    entrypoint: /root/wait-for-minion-up.sh
+    networks:
+      mgmt:
+        ipv4_address: 172.18.0.20
+        ipv6_address: 2001:3984:3989::30
+      public:
+        ipv4_address: 172.19.0.20
+        ipv6_address: 2001:3984:3990::30
+
+networks:
+  mgmt:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.0.0/24
+        gateway: 172.18.0.1
+      - subnet: 2001:3984:3989::/64
+        gateway: 2001:3984:3989::1
+  public:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.19.0.0/24
+        gateway: 172.19.0.1
+      - subnet: 2001:3984:3990::/64
+        gateway: 2001:3984:3990::1
+

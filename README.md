@@ -51,6 +51,10 @@ a68d9515ea90:
     True
 ```
 
-Internally, hosts resolve through their docker names, i.e. salt-master, controller01, compute01.
+# Notes
+* Internally, hosts resolve through their docker names, i.e. salt-master, controller01, compute01.
+* Environment configured both over IPv4 and IPv6
+* Images **fsoppelsa/saltmaster** and **fsoppelsa/saltminion** are pushed to the Hub, available to `docker pull`
+* **fsoppelsa/saltmaster** has autobuild activated on the Hub
 
 Enjoy 🍻
