@@ -6,7 +6,9 @@ RUN wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK
 RUN echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main" > /etc/apt/sources.list.d/saltstack.list
 RUN apt-get update
 RUN apt-get -y install salt-master
-RUN mkdir -p /srv/{salt,pillar}
+RUN mkdir -p /srv/salt
+RUN mkdir -p /srv/pillar
+RUN cd /srv/salt && git clone https://github.com/tcpcloud/mk20-lab-salt-model.git
 RUN sed -i s/"\#hash_type: md5"/"hash_type: sha256"/ /etc/salt/master
 EXPOSE 4505
 EXPOSE 4506
