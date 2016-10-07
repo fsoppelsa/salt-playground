@@ -32,10 +32,10 @@ a68d9515ea90        openstackdemo_controller03   "/root/wait-for-minio"   9 minu
 99350c48af7b        openstackdemo_controller02   "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           controller02
 ```
 
-Then get the master ID, like ***2c0c7a75b253***
+Then open a bash inside the master:
 
 ```
-$ docker exec -ti 2c0c7a75b253 bash
+$ docker exec -ti salt-master bash
 root@2c0c7a75b253:/# salt '*' test.ping                                                                                                                                     
 ed13fb6d5045:
     True
