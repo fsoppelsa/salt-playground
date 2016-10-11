@@ -3,6 +3,7 @@ version: '2'
 services:
   master:
     container_name: salt-master
+    hostname: salt-master
     # Also: fsoppelsa/saltmaster on the Hub
     # It's an enabled Docker autobuild
     build: saltmaster/
@@ -25,8 +26,11 @@ services:
       public:
         ipv4_address: 172.19.0.2
         ipv6_address: 2001:3984:3990::10
+    volumes:
+      - /home/salt/formulae:/srv/
   controller01:
     container_name: controller01
+    hostname: ctl01
     # Also: fsoppelsa/saltminion on the Hub
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
@@ -39,6 +43,7 @@ services:
         ipv6_address: 2001:3984:3990::11
   controller02:
     container_name: controller02
+    hostname: ctl02
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
     networks:
@@ -50,6 +55,7 @@ services:
         ipv6_address: 2001:3984:3990::12
   controller03:
     container_name: controller03
+    hostname: ctl03
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
     networks:
@@ -61,6 +67,7 @@ services:
         ipv6_address: 2001:3984:3990::13
   compute01:
     container_name: compute01
+    hostname: cmp01
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
     networks:
@@ -72,6 +79,7 @@ services:
         ipv6_address: 2001:3984:3990::20
   compute02:
     container_name: compute02
+    hostname: cmp02
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
     networks:
@@ -83,6 +91,7 @@ services:
         ipv6_address: 2001:3984:3990::21
   web01:
     container_name: web01
+    hostname: web01
     build: saltminion/
     entrypoint: /root/wait-for-minion-up.sh
     networks:
