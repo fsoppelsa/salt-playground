@@ -8,13 +8,13 @@ Instant multihost Salt environment fired up with Compose
   * [Docker Machine](https://docs.docker.com/machine/install-machine/)
 * Docker Compose:
   * Mac users: `brew install docker-compose`
-  * Universal: 
-  
+  * Universal:
+
 ```
 curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` \
 > /usr/local/bin/docker-compose
 ```
-  
+
 # Usage
 1. `cd salt-playground`
 2. `docker-compose -f demo.yml up --build --remove-orphans --force-recreate -d`
@@ -22,32 +22,43 @@ curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose
 
 ```
 $ docker ps
-CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                              NAMES
-2c0c7a75b253        openstackdemo_master         "/root/start.sh 6"       9 minutes ago       Up 9 minutes        0.0.0.0:4505-4506->4505-4506/tcp   salt-master
-3536c4ebd833        openstackdemo_compute01      "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           compute01
-ed13fb6d5045        openstackdemo_controller01   "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           controller01
-8ba9b601aa1c        openstackdemo_compute02      "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           compute02
-a68d9515ea90        openstackdemo_controller03   "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           controller03
-49cafd4611c9        openstackdemo_web01          "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           web01
-99350c48af7b        openstackdemo_controller02   "/root/wait-for-minio"   9 minutes ago       Up 9 minutes                                           controller02
+CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS                              NAMES
+d701748ad010        saltplayground_master         "/root/start.sh 6"       3 seconds ago       Up 1 seconds        0.0.0.0:4505-4506->4505-4506/tcp   salt-master
+86c4952225b9        saltplayground_controller03   "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           controller03
+0dc145d30062        saltplayground_web01          "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           web01
+e919680db69b        saltplayground_controller01   "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           controller01
+03b4df88e265        saltplayground_compute02      "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           compute02
+3bdddea4d118        saltplayground_compute01      "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           compute01
+ff8cc3bf89f4        saltplayground_controller02   "/root/wait-for-minio"   7 seconds ago       Up 3 seconds                                           controller02
 ```
 
-Then open a bash inside the master:
+Then attach to the master with bash:
 
 ```
 $ docker exec -ti salt-master bash
-root@2c0c7a75b253:/# salt '*' test.ping                                                                                                                                     
-ed13fb6d5045:
+root@salt-master:/# salt-key -F
+Local Keys:
+master.pem:  65:07:a1:a1:de:3c:44:59:c8:7a:15:f3:43:c0:4c:1c:90:b3:87:14:bb:c0:18:9c:c1:7b:b1:57:f4:87:cc:7e
+master.pub:  6b:02:4c:44:c9:a6:c1:a1:83:86:a7:cc:32:9d:2a:54:ef:02:8e:c3:1d:8c:41:30:54:cb:43:ce:f6:6a:01:d5
+Accepted Keys:
+cmp01:  d1:0f:f4:19:a0:ad:34:99:67:fd:1a:0d:54:da:9f:84:d6:18:55:b8:13:3b:04:51:6c:ff:39:5f:07:d6:74:30
+cmp02:  a2:7e:1c:c2:50:70:71:61:66:31:0b:c4:e0:6c:9b:d1:55:fa:f6:16:00:7f:33:31:ad:14:6f:31:61:6d:15:97
+ctl01:  14:95:7b:1f:68:54:6e:a0:c7:75:b8:9e:b6:e8:64:2a:da:f8:c3:7a:a8:b3:38:5f:73:be:be:ec:d7:6f:4d:f6
+ctl02:  31:40:6e:b3:65:52:a4:e2:b1:7e:e6:bf:8e:f6:1f:08:1b:cd:77:81:13:15:69:16:e5:6a:a8:f2:6c:45:9c:d4
+ctl03:  a4:0b:be:72:0b:14:d5:9a:ac:81:4a:9f:69:5f:0a:93:dc:8c:44:ee:b6:8d:65:05:33:47:2e:99:01:f2:fe:fd
+web01:  19:2e:a8:8c:2e:8b:c2:e0:97:9d:25:cf:06:3b:de:0c:46:1b:68:c8:6a:4e:e8:12:38:72:df:1b:40:16:14:52
+root@salt-master:/# salt '*'
+web01:
     True
-99350c48af7b:
+cmp01:
     True
-a68d9515ea90:
+cmp02:
     True
-8ba9b601aa1c:
+ctl01:
     True
-49cafd4611c9:
+ctl02:
     True
-3536c4ebd833:
+ctl03:
     True
 ```
 

@@ -26,8 +26,6 @@ services:
       public:
         ipv4_address: 172.19.0.2
         ipv6_address: 2001:3984:3990::10
-    volumes:
-      - /home/salt/formulae:/srv/
   controller01:
     container_name: controller01
     hostname: ctl01
