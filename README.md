@@ -47,7 +47,7 @@ ctl01:  14:95:7b:1f:68:54:6e:a0:c7:75:b8:9e:b6:e8:64:2a:da:f8:c3:7a:a8:b3:38:5f:
 ctl02:  31:40:6e:b3:65:52:a4:e2:b1:7e:e6:bf:8e:f6:1f:08:1b:cd:77:81:13:15:69:16:e5:6a:a8:f2:6c:45:9c:d4
 ctl03:  a4:0b:be:72:0b:14:d5:9a:ac:81:4a:9f:69:5f:0a:93:dc:8c:44:ee:b6:8d:65:05:33:47:2e:99:01:f2:fe:fd
 web01:  19:2e:a8:8c:2e:8b:c2:e0:97:9d:25:cf:06:3b:de:0c:46:1b:68:c8:6a:4e:e8:12:38:72:df:1b:40:16:14:52
-root@salt-master:/# salt '*'
+root@salt-master:/# salt '*' test.ping
 web01:
     True
 cmp01:
